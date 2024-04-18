@@ -1,18 +1,18 @@
 {
-    "id": 1,
-    "name": "Tania",
-    "avatar": "https://i.pinimg.com/564x/90/92/f8/9092f8d36b8c68435e5440d18d3ffb84.jpg",
-    "subjects" : {
-        "Calculo" : 600,
-        "Fisica" : 500,
-        "Paradigmas" : 700,
-        "Algoritmos" : 800,
-        "Redes" : 650
-    },
-    "stats" : {
-        "totalScore": 5000,
-        "maxTime" : 3600,
-        "avgTime" : 3600,
-        "dayCount" : 1
-    }
+  "id": 1,
+  "name": "Tania",
+  "avatar": "https://i.pinimg.com/564x/90/92/f8/9092f8d36b8c68435e5440d18d3ffb84.jpg",
+  "subjects": {
+    "Calculo": 600,
+    "Paradigmas": 702,
+    "Algoritmos": 803,
+    "Redes": 650,
+    "undefined": null
+  },
+  "stats": {
+    "totalScore": 5000,
+    "maxTime": 3600,
+    "avgTime": 3600,
+    "dayCount": 1
+  }
 }

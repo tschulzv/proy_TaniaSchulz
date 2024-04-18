@@ -1,0 +1,44 @@
+.form-wrapper {
+    background-color: #b2748c;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-box {
+    background-color: white;
+    width: 600px;
+    min-height: 400px;
+    padding: 20px;
+    margin: 50px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-radius: 2px;
+    text-align: left;
+    display: block;
+}
+
+label {
+    font-family: "Archivo", sans-serif;
+    font-size: x-large;
+    display: block;
+    padding: 10px;
+}
+
+.form-box input, .form-box select {
+    font-size: larger;
+    padding: 5px;
+    border-radius: 1px;
+}
+
+.form-box input {
+    background-color: rgb(234, 234, 234);
+    border: none;
+}
+
+button {
+    display: block;
+    padding: 10px;
+    margin: 2px;
+}

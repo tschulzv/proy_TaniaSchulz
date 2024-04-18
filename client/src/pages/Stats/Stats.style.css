@@ -1,0 +1,19 @@
+.avatar{
+    width: 200px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.side-bar h1, .side-bar p {
+    background-color: transparent;
+    color: white;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center; 
+    align-items: center;
+    text-align: center;
+}

@@ -1,0 +1,43 @@
+.content{
+    display: flex;
+    flex: 1;
+    width: 100%;
+}
+
+.side-bar{
+    width: 40%;
+    min-height: 500px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #C15C83;
+}
+
+.side-bar h2 {
+    font-family: "Playfair Display", serif;
+    color: white;
+    background-color: transparent;
+    text-align: center;
+}
+
+.subject-box{
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-radius: 1px;
+    text-align: center;
+    min-height: 200px;
+    min-width: 200px;
+    color: black;
+}
+
+.display-session p {
+    color: black;
+}
+
+.watch-box{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
