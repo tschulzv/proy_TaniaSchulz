@@ -87,6 +87,17 @@ h1, h2 {
     color:black;
 }
 
+.round-btn{
+    height: 25px;
+    width: 25px;
+    border-color: #A13D63;
+    border-radius: 50%;
+    background-color: #A13D63;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+}
+
 /* STOPWATCH COMPONENT */
 .circle-div {
     border-radius: 50%;

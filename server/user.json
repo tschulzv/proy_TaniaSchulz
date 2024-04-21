@@ -3,16 +3,11 @@
   "name": "Tania",
   "avatar": "https://i.pinimg.com/564x/1d/c7/d6/1dc7d6fcaf979b16e5b3575a6dd00ad3.jpg",
   "subjects": {
-    "Calculo": 600,
-    "Paradigmas": 702,
-    "Algoritmos": 805,
+    "Algoritmos": 811,
     "Redes": 650,
-    "Nueva asignatura...": 0
+    "Calculo": 1
   },
   "stats": {
-    "totalScore": 5000,
-    "maxTime": 3600,
-    "avgTime": 3600,
-    "dayCount": 1
+    "totalScore": 5000
   }
 }

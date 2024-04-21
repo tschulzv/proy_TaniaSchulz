@@ -11,6 +11,7 @@ const Home = (props) => {
     const [userData, setUserData] = useState();
     const [todaySessions, setTodaySessions] = useState([]);
     const [totalTime, setTotalTime] = useState();
+    const [endMsg, setEndMsg] = useState("");
     const [showMsg, setShowMsg] = useState(false);
     let totalTimeToday = 0;
     let score = 0;
@@ -53,8 +54,9 @@ const Home = (props) => {
     }
 
     const addScore = (time, subject) => {
-        // 1 hora de estudio = 100 puntos 
-        score = Math.floor((100/3600) * time);
+        // 1 hora de estudio = 50 puntos 
+        score = Math.floor((50/3600) * time);
+        setEndMsg("Bien hecho! Puntos obtenidos: "+score); 
         setShowMsg(true);
         let copySubjects = { ...userData.subjects };
         // obtener puntaje anterior, luego sumarlo
@@ -75,13 +77,11 @@ const Home = (props) => {
         let hours = Math.floor(timeInSeconds /  3600);
         let minutes = Math.floor((timeInSeconds % 3600) / 60);
         
-        // Ensure that single-digit minutes are formatted with leading zero
+        // agregar 0 al inicio
         let formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-        
-        // Ensure that single-digit hours are formatted with leading zero if there are minutes
         let formattedHours = hours > 0 ? (hours < 10 ? `0${hours}` : hours) : '00';
         
-        // Return formatted time as a string
+        // retornar como string
         return `${formattedHours}:${formattedMinutes}`; 
     }
 
@@ -105,7 +105,7 @@ const Home = (props) => {
                     </div>
                 </div>
                 <div className="main-content">
-                    {showMsg && <p className="end-msg">Bien hecho! Has ganado {score} puntos</p>}
+                    {showMsg && <p className="end-msg">{endMsg}</p>}
                     {props.loading ? <p>Loading...</p> : 
                     <Stopwatch subjects={props.subjects} addSession={addSession}/>}
                 </div>

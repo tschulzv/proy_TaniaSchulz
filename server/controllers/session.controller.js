@@ -65,37 +65,58 @@ module.exports.deleteSession = (req, res) => {
 }
 
 module.exports.getAvgTime = (req, res) => {
-    Session.aggregate([
+    Session.aggregate(
+      [
         {
-          $group: {
-            _id: "$date", // Group sessions by date
-            totalAggregateTimeInSeconds: { $sum: "$timeInSeconds" } // Calculate total timeInSeconds for each date
+          '$group': {
+            '_id': '$date', 
+            'totalSecondsPerDate': {
+              '$sum': '$timeInSeconds'
+            }
           }
-        },
-        {
-          $group: {
-            _id: null, // Group all documents together
-            totalDates: { $sum: 1 }, // Count total number of unique dates
-            totalAggregateTimeInSeconds: { $sum: "$totalAggregateTimeInSeconds" } // Calculate total timeInSeconds across all dates
+        }, {
+          '$group': {
+            '_id': null, 
+            'totalDates': {
+              '$sum': 1
+            }, 
+            'totalAggregateTime': {
+              '$sum': '$totalSecondsPerDate'
+            }, 
+            'maxTime': {
+              '$max': '$totalSecondsPerDate'
+            }
           }
-        },
-        {
-          $project: {
-            _id: 0,
-            averageTimeInSecondsPerDate: { $divide: ["$totalAggregateTimeInSeconds", "$totalDates"] } // Calculate average timeInSeconds per date
+        }, {
+          '$project': {
+            'maxTime': '$maxTime', 
+            'totalDates': '$totalDates', 
+            'averageTimePerDate': {
+              '$divide': [
+                '$totalAggregateTime', '$totalDates'
+              ]
+            }
           }
         }
-      ]).then(result => {
-        if(result.length > 0) {
-          res.status(200).json({ avgTime: result[0].averageTimeInSecondsPerDate });
-        } else {
+      ]
+    ).then(result => {
+      console.log(result[0].averageTimePerDate);
+      res.status(200).json({
+        maxTime : result[0].maxTime,
+        totalDates : result[0].totalDates,
+        avgTime : result[0].averageTimePerDate});
+      /* Handle the result here
+      if (result.length > 0) {
+          const averageTimePerDate = result[0].averageTimePerDate;
+          res.status(200).json({ avgTimePerDate: averageTimePerDate });
+      } else {
           // Handle case when there are no sessions
-          res.status(200).json({ avgTime: 0 });
-        }
-      }).catch(err => {
-        console.error(err);
-        res.status(500).json({ error: err.message });
-      });
+          res.status(200).json({ avgTimePerDate: 0 });
+      }*/
+  }).catch(err => {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+  });
 }
 
 

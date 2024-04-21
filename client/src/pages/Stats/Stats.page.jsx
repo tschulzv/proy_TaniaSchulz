@@ -19,13 +19,17 @@ const Stats = (props) => {
     const [ranking, setRanking] = useState();
     const [bestSubject, setBestSubject] = useState("");
     const [worstSubject, setWorstSubject] = useState("");
+    const [maxTime, setMaxTime] = useState(0);
     const [average, setAverage] = useState(0);
+    const [totalDates, setTotalDates] = useState(0);
     const client = new HTTPClient();
 
     useEffect(() => {
         // obtener sesiones, hallar promedio y ranking
         client.getAvgTime()
         .then(res=>{
+            setMaxTime(res.data.maxTime);
+            setTotalDates(res.data.totalDates);
             setAverage(res.data.avgTime);
             console.log("[APP.JS]exito, tiempo promedio:", res.data.avgTime);
         })
@@ -40,6 +44,18 @@ const Stats = (props) => {
         // termina de cargar
         setLoading(false);
     }, [])
+
+    const convertTime = (timeInSeconds) => {
+        let hours = Math.floor(timeInSeconds /  3600);
+        let minutes = Math.floor((timeInSeconds % 3600) / 60);
+        
+        // agregar 0 al inicio
+        let formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        let formattedHours = hours > 0 ? (hours < 10 ? `0${hours}` : hours) : '00';
+        
+        // retornar como string
+        return `${formattedHours}:${formattedMinutes}`; 
+    }
     
     const findRanking = () => {
         const score = stats.totalScore;
@@ -70,9 +86,9 @@ const Stats = (props) => {
                 </div>
                 <div className="main-content">
                     <h2>STATS</h2>
-                    <p>Record de horas estudiadas: {stats.maxTime}</p>
-                    <p>Promedio de horas estudiadas: {average}</p>
-                    {/*<p>Dias estudiados: {stats.dayCount}</p>*/}
+                    <p>Record de horas estudiadas: {convertTime(maxTime)}</p>
+                    <p>Promedio de horas estudiadas: {convertTime(average)}</p>
+                    <p>Dias estudiados: {totalDates}</p>
                     <h2>HABILIDADES</h2>
                     {Object.entries(subjects).map(([subject, score]) => (
                                 <p key={subject}>

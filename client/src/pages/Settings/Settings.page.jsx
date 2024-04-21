@@ -5,6 +5,7 @@ import {
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar.component";
 import HTTPClient from "../../utils/HTTPClient";
+import "../../components/StyleUtils.style.css"
 import "./Settings.style.css";
 import "../CreateResource/ResourceForm.style.css"
 
@@ -12,7 +13,11 @@ const Settings = (props) => {
     const [userData, setUserData] = useState(props.userData);
     const [subjects, setSubjects] = useState(props.userData.subjects);
     const [showMsg, setShowMsg] = useState(false);
+    const [msg, setMsg] = useState("");
+    const [showSubjInput, setShowSubjInput] = useState(false);
+    const [newSubject, setNewSubject] = useState("");
     const client = new HTTPClient();
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,30 +28,59 @@ const Settings = (props) => {
         }));
     };
 
+    const showInput = () => {
+        console.log("[settings]ASIGNATURAS:", subjects);
+        setShowSubjInput(true);
+    }
+
+    const handleNewSubject = (e) => {
+        setNewSubject(e.target.value);
+    };
+
+
     const deleteSubject = (subjectToDelete) => {
-        if (!userData) return; // Check if userData is undefined
+        setMsg("Se eliminó la asignatura")
+        if (!userData || !subjects) return; // Check if userData is undefined
         const updatedSubjects = { ...subjects };
         delete updatedSubjects[subjectToDelete];
         setSubjects(updatedSubjects);
         // Update the JSON data immediately
         client.editUser({ ...userData, subjects: updatedSubjects })
-            .then((res) => console.log("ajustes guardados", res))
+            .then((res) => {
+                console.log("se edito las asignaturas", res)
+                setShowMsg(true);
+            })
             .catch((err) => console.log(err));
+        setTimeout(() => {
+            setShowMsg(false);
+            navigate("/");
+        }, 3000);
     };
     
     const addSubject = () => {
-        if (!userData) return; 
-        const newSubjects = { ...subjects, 'Nueva asignatura...': 0 };
-        setSubjects(newSubjects);
+        setMsg("Se agregó la asignatura");
+        if (!newSubject.trim()) return; 
+        const updatedSubjects = { ...subjects };
+        updatedSubjects[newSubject] = 0; // agregar la nueva asignatura a la copia y guardar
+        setSubjects(updatedSubjects);
+        setNewSubject(""); // vaciar input y ocultar
+        setShowSubjInput(false); 
         // guardar en el json
-        client.editUser({ ...userData, subjects: newSubjects })
-            .then((res) => console.log("ajustes guardados", res))
+        client.editUser({ ...userData, subjects: updatedSubjects })
+            .then((res) => {
+            setShowMsg(true);
+            console.log("se edito las asignaturas", res)})
             .catch((err) => console.log(err));
+        setTimeout(() => {
+            setShowMsg(false);
+            navigate("/");
+        }, 3000);
     };
 
     
     const handleSubmit = (e) => {
         e.preventDefault();
+        setMsg("Se guardaron los cambios");
         // Make API call to update user data
         client.editUser(userData)
             .then((res) => {
@@ -57,6 +91,7 @@ const Settings = (props) => {
         // el mensaje desaparece en 3 seg
         setTimeout(() => {
             setShowMsg(false);
+            navigate("/");
         }, 3000);
     };
 
@@ -67,8 +102,8 @@ const Settings = (props) => {
             <div className="form-wrapper">
                 <div className="form-box">
                     <h2 className="title">Ajustes</h2>
-                    {userData && subjects && (
-                    <form className="settings-form" onSubmit={handleSubmit}>
+                    {userData && subjects && (<>
+                    <form className="settings-form">
                         <div className="form-field">
                             <label htmlFor="name">Nombre</label>
                             <input name="name" type="text" placeholder={userData.name} onChange={handleChange}></input>
@@ -83,15 +118,27 @@ const Settings = (props) => {
                             <div className="subjects-field">
                                 {Object.entries(userData.subjects).map(([subject, score]) => (
                                     <div className="subject-name">
-                                        <span key={subject}>{subject}</span> <button type="button" onClick={() => deleteSubject(subject)}> X </button>
+                                        <span key={subject}>{subject}</span> <button type="button" className="round-btn" onClick={() => deleteSubject(subject)}> x </button>
                                     </div>
                                 ))}       
                             </div>
                         </div>
-                        <button onClick={addSubject}>Nueva asignatura</button>
+                        
                         <button type="submit" onClick={handleSubmit}>Guardar cambios</button>
-                        {showMsg && <p className="msg">Se han guardado los cambios.</p>}
+                        {showMsg && <p className="msg">{msg}</p>}
                     </form>
+                      <button onClick={showInput}>Nueva asignatura</button>
+                      {showSubjInput && (
+                          <div>
+                              <input
+                                  type="text"
+                                  value={newSubject}
+                                  onChange={handleNewSubject}
+                                  placeholder="Nombre de la nueva asignatura"
+                              />
+                              <button onClick={addSubject}>Agregar</button>
+                          </div>
+                      )}</>
                 )}
                 </div>
             </div>
@@ -101,3 +148,10 @@ const Settings = (props) => {
 }
 
 export default Settings;
+/*
+                <button onClick={showInput}>Nueva asignatura</button>
+                {subjects && showSubjInput && <div className="form-field">
+                    <label htmlFor="newSubject">Nueva asignatura</label>
+                    <input name="newSubject" type="text" onChange={handleNewSubject}></input>
+                    <button onClick={addSubject}></button>
+                </div>}*/

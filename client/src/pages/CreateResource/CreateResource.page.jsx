@@ -83,10 +83,10 @@ const CreateResource = (props) => {
                         <div className="form-field">
                             <label htmlFor="type">TIPO</label>
                             <select id="type" onChange={(e) => {setType(e.target.value)}}>
-                                <option value="video">Video</option>
-                                <option value="ebook">Ebook</option>
-                                <option value="website">Sitio web</option>
-                                <option value="workbook">Ejercitario</option>
+                                <option value="Video">Video</option>
+                                <option value="E-book">Ebook</option>
+                                <option value="Website">Sitio web</option>
+                                <option value="Ejercitario">Ejercitario</option>
                             </select>
                         </div>
                         <div className="form-field">

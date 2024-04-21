@@ -58,6 +58,9 @@ const ResourceTable = () => {
       {
         Header: 'FUENTE',
         accessor: 'source',
+        Cell: ({row}) => (
+          <a href={row.original.source}>{row.original.source}</a>
+        )
       },
       {
         Header: '',

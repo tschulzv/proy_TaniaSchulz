@@ -30,7 +30,7 @@ class HTTPClient {
     }
 
     getAvgTime(){
-        return this.instance.get("/sessions/avgtime");
+        return this.instance.get("/average");
     }
 
     // RESOURCES
