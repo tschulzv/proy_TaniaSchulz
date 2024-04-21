@@ -44,7 +44,6 @@ const Settings = (props) => {
         const updatedSubjects = { ...subjects };
         delete updatedSubjects[subjectToDelete];
         setSubjects(updatedSubjects);
-        // Update the JSON data immediately
         client.editUser({ ...userData, subjects: updatedSubjects })
             .then((res) => {
                 console.log("se edito las asignaturas", res)
@@ -53,7 +52,6 @@ const Settings = (props) => {
             .catch((err) => console.log(err));
         setTimeout(() => {
             setShowMsg(false);
-            navigate("/");
         }, 3000);
     };
     
@@ -61,36 +59,33 @@ const Settings = (props) => {
         setMsg("Se agregó la asignatura");
         if (!newSubject.trim()) return; 
         const updatedSubjects = { ...subjects };
-        updatedSubjects[newSubject] = 0; // agregar la nueva asignatura a la copia y guardar
+        updatedSubjects[newSubject] = 0; // agregar la nueva asignatura a la copia 
+        // guardar 
         setSubjects(updatedSubjects);
-        setNewSubject(""); // vaciar input y ocultar
-        setShowSubjInput(false); 
-        // guardar en el json
-        client.editUser({ ...userData, subjects: updatedSubjects })
-            .then((res) => {
-            setShowMsg(true);
-            console.log("se edito las asignaturas", res)})
-            .catch((err) => console.log(err));
+        setShowMsg(true);
+        setShowSubjInput(false);  // ocultar input
         setTimeout(() => {
             setShowMsg(false);
-            navigate("/");
         }, 3000);
     };
 
     
     const handleSubmit = (e) => {
         e.preventDefault();
+        // guardar los cambios y las nuevas asignaturas
         setMsg("Se guardaron los cambios");
-        // Make API call to update user data
-        client.editUser(userData)
+        client.editUser({...userData, subjects: subjects})
             .then((res) => {
-                console.log("ajustes guardados", res);
+                console.log("SUBMITTED CHANGES:", res);
                 setShowMsg(true);
             })
             .catch((err) => console.log(err));
+       
         // el mensaje desaparece en 3 seg
         setTimeout(() => {
             setShowMsg(false);
+            // pasar datos actualizados al inicio
+            props.updateData(userData, subjects);
             navigate("/");
         }, 3000);
     };
@@ -113,12 +108,12 @@ const Settings = (props) => {
                             <img src={userData.avatar} alt="#" className="settings-avatar"/>
                             <input name="avatar" type="text" placeholder={userData.avatar} onChange={handleChange}></input>
                         </div>
-                        <div className="form-field">
+                        <div className="left-align">
                             <label>Asignaturas</label>
                             <div className="subjects-field">
                                 {Object.entries(userData.subjects).map(([subject, score]) => (
                                     <div className="subject-name">
-                                        <span key={subject}>{subject}</span> <button type="button" className="round-btn" onClick={() => deleteSubject(subject)}> x </button>
+                                        <span key={subject}>{subject}</span> <button type="button" className="round-btn" onClick={() => deleteSubject(subject)}>X</button>
                                     </div>
                                 ))}       
                             </div>

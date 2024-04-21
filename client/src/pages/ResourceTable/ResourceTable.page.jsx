@@ -59,14 +59,14 @@ const ResourceTable = () => {
         Header: 'FUENTE',
         accessor: 'source',
         Cell: ({row}) => (
-          <a href={row.original.source}>{row.original.source}</a>
+          <a className="link" href={row.original.source}>{row.original.source}</a>
         )
       },
       {
         Header: '',
         accessor: '_id',
         Cell: ({ row }) => (
-          <Link to={`/resources/${row.original._id}/edit`}>Editar</Link>
+          <Link className="link" to={`/resources/${row.original._id}/edit`}>Editar</Link>
         ),
       },
     ],

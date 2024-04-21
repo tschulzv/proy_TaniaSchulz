@@ -3,8 +3,8 @@ import { useStopwatch } from 'react-timer-hook';
 import "./StyleUtils.style.css";
 
 const Stopwatch = (props) => {
-  const subjects = props.subjects; 
-  const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
+  //const [subjects, setSubjects] = useState(props.subjects); 
+  const [selectedSubject, setSelectedSubject] = useState();
   const [buttonText, setButtonText] = useState("Iniciar");
   const [isRunning, setIsRunning] = useState(false);
   const {
@@ -12,7 +12,6 @@ const Stopwatch = (props) => {
     seconds,
     minutes,
     hours,
-    //isRunning,
     start,
     pause,
     reset,
@@ -64,7 +63,7 @@ const Stopwatch = (props) => {
               </div>
               <select id="subject" onChange={(e) => {handleChange(e)}}>
                   {
-                  subjects && subjects.map((subject, i) => (
+                  props.subjects && props.subjects.map((subject, i) => (
                       <option value={subject}>{subject}</option>
                   ))}
               </select>

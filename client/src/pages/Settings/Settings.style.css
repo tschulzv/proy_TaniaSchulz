@@ -4,7 +4,14 @@
     border-radius: 50%;
 }
 
+.left-align {
+    display: flex;
+    align-items: flex-start;
+
+}
+
 .subjects-field{
+    margin-left: 40px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -14,7 +21,8 @@
 .subject-name{
     display: flex;
     width: 100%;
-    justify-content: space-evenly;
+    justify-content: flex-start;
+    align-items: center;
     margin-top: 5px;
 
 }

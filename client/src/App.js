@@ -38,19 +38,18 @@ function App() {
     /* obtener coleccion de sesiones DE HOY*/
     client.getTodaySessions()
         .then(res=>{
-            // si aun no hay sesiones de hoy, sumar uno a la cantidad de dias
-            if(!res.data.sessions){
-              
-            }
             setTodaySessions(res.data.sessions);
             console.log("[APP.JS]exito, sesiones de hoy:", res.data.sessions);
         })
         .catch(err=>console.log("no se obtuvieron las sesiones",err));
-  
-    
-
     setLoading(false);
     }, []);
+
+    // actualizar según los ajustes hechos
+    const updateData = (data, subjectList) => {
+      setSubjects(Object.keys(subjectList));
+      setUserData(data);
+    }
 
   return (
     <Router>
@@ -60,7 +59,7 @@ function App() {
         <Route path="/resources/create" element={<CreateResource subjects={subjects}/>}/>
         <Route path="/resources/:id/edit" element={<EditResource subjects={subjects}/>}/>
         <Route path="/stats" element={<Stats userData={userData}/>}/>
-        <Route path="/settings" element={<Settings userData={userData} subjects={subjects}/>}/>
+        <Route path="/settings" element={<Settings userData={userData} subjects={subjects} updateData={updateData}/>}/>
       </Routes>
   </Router>
   );
