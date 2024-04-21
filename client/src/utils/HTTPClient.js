@@ -29,6 +29,10 @@ class HTTPClient {
         return this.instance.post("/sessions/create", data);
     }
 
+    getAvgTime(){
+        return this.instance.get("/sessions/avgtime");
+    }
+
     // RESOURCES
     getrResources(){
         return this.instance.get("/resources/")
@@ -46,6 +50,9 @@ class HTTPClient {
         return this.instance.post("/resources/create", data);
     }
 
+    deleteResource(id){
+        return this.instance.delete("/resources/"+id);
+    }
 
 }   
 

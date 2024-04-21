@@ -1,13 +1,13 @@
 {
   "id": 1,
   "name": "Tania",
-  "avatar": "https://i.pinimg.com/564x/90/92/f8/9092f8d36b8c68435e5440d18d3ffb84.jpg",
+  "avatar": "https://i.pinimg.com/564x/1d/c7/d6/1dc7d6fcaf979b16e5b3575a6dd00ad3.jpg",
   "subjects": {
     "Calculo": 600,
     "Paradigmas": 702,
-    "Algoritmos": 803,
+    "Algoritmos": 805,
     "Redes": 650,
-    "undefined": null
+    "Nueva asignatura...": 0
   },
   "stats": {
     "totalScore": 5000,

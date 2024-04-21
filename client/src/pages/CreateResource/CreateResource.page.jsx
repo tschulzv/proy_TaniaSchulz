@@ -8,7 +8,7 @@ import HTTPClient from "../../utils/HTTPClient";
 import Navbar from "../../components/Navbar.component";
 
 const CreateResource = (props) => {
-    //const {subjects} = props.subjects;
+    const [showMsg, setShowMsg] = useState(false);
     const [subject, setSubject] = useState("");
     const [topic, setTopic] = useState("");
     const [type, setType] = useState("");
@@ -34,7 +34,11 @@ const CreateResource = (props) => {
         client.createResource(data)
             .then((res) => {
                 console.log("Recurso creado con exito", res);
-                navigate("/resources");
+                setShowMsg(true);
+                setTimeout(() => {
+                    setShowMsg(false);
+                    navigate("/resources");
+                }, 3000);
             })
             .catch((err) => {
                 console.log(err);
@@ -66,26 +70,35 @@ const CreateResource = (props) => {
                 <div className="form-box">
                     <h1 className="form-header">Agregar un recurso</h1>
                     <form className="res-form" onSubmit={(e) => {handleSubmit(e)}}>
-                        <label htmlFor="subject">ASIGNATURA</label>
-                        <select id="subject" onChange={(e) => {setSubject(e.target.value)}}>
-                            {
-                                props.subjects && props.subjects.map((sub, i) => (
-                                    <option value={sub}>{sub}</option>
-                                ))
-                            }
-                        </select>
-                        <label htmlFor="type">TIPO</label>
-                        <select id="type" onChange={(e) => {setType(e.target.value)}}>
-                            <option value="video">Video</option>
-                            <option value="ebook">Ebook</option>
-                            <option value="website">Sitio web</option>
-                            <option value="workbook">Ejercitario</option>
-                        </select>
-                        <label htmlFor="topic">TEMA</label>
-                        <input id="topic" type="text" onChange={(e) => {setTopic(e.target.value)}}></input>
-                        <label htmlFor="source">FUENTE</label>
-                        <input id="source" type="text" onChange={(e) => {setSource(e.target.value)}}></input>
+                        <div className="form-field">
+                            <label htmlFor="subject">ASIGNATURA</label>
+                            <select id="subject" onChange={(e) => {setSubject(e.target.value)}}>
+                                {
+                                    props.subjects && props.subjects.map((sub, i) => (
+                                        <option value={sub}>{sub}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                        <div className="form-field">
+                            <label htmlFor="type">TIPO</label>
+                            <select id="type" onChange={(e) => {setType(e.target.value)}}>
+                                <option value="video">Video</option>
+                                <option value="ebook">Ebook</option>
+                                <option value="website">Sitio web</option>
+                                <option value="workbook">Ejercitario</option>
+                            </select>
+                        </div>
+                        <div className="form-field">
+                            <label htmlFor="topic">TEMA</label>
+                            <input id="topic" type="text" onChange={(e) => {setTopic(e.target.value)}}></input>
+                        </div>
+                        <div className="form-field">
+                            <label htmlFor="source">FUENTE</label>
+                            <input id="source" type="text" onChange={(e) => {setSource(e.target.value)}}></input>
+                        </div>
                         <button type="submit">AGREGAR</button>
+                        {showMsg && <p className="msg">Se ha guardado el recurso.</p>}
                     </form>
                 </div>
             </div>

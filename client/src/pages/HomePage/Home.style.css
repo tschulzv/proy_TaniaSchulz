@@ -41,3 +41,8 @@
     width: 100%;
     justify-content: center;
 }
+
+.end-msg {
+    color: #0C8346;
+    font-size: medium;
+}

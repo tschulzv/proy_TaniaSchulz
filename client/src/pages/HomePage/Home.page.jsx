@@ -7,6 +7,7 @@ import "./Home.style.css";
 import "../../components/StyleUtils.style.css";
 
 const Home = (props) => {
+    const [loading, setLoading] = useState(true);
     const [userData, setUserData] = useState();
     const [todaySessions, setTodaySessions] = useState([]);
     const [totalTime, setTotalTime] = useState();
@@ -87,8 +88,10 @@ const Home = (props) => {
     return (
         <div className="wrapper">
             <Navbar title1="ORGANIZADOR" link1="/resources" title2="ESTADISTICAS" link2="/stats" title3="AJUSTES" link3="/settings" />
+            {userData &&
             <div className="content">
                 <div className="side-bar">
+                    <h1>Hola, {props.userData.name}!</h1>
                     <h2>Hoy has estudiado {convertTime(totalTime)} </h2>
                     <div className="subject-box">
                         <h3>Sesiones</h3>
@@ -102,11 +105,11 @@ const Home = (props) => {
                     </div>
                 </div>
                 <div className="main-content">
+                    {showMsg && <p className="end-msg">Bien hecho! Has ganado {score} puntos</p>}
                     {props.loading ? <p>Loading...</p> : 
                     <Stopwatch subjects={props.subjects} addSession={addSession}/>}
-                     {showMsg && <p>Bien hecho! Has ganado {score} puntos</p>}
                 </div>
-            </div>
+            </div>}
         </div>
     )
 

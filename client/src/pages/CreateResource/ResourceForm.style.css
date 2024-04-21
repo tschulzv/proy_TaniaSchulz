@@ -1,5 +1,5 @@
 .form-wrapper {
-    background-color: #b2748c;
+    background-color: #A13D63;
     width: 100%;
     height: 100%;
     display: flex;
@@ -22,14 +22,14 @@
 label {
     font-family: "Archivo", sans-serif;
     font-size: x-large;
-    display: block;
     padding: 10px;
 }
 
 .form-box input, .form-box select {
-    font-size: larger;
+    font-size: large;
     padding: 5px;
     border-radius: 1px;
+    width: 400px;
 }
 
 .form-box input {
@@ -37,8 +37,15 @@ label {
     border: none;
 }
 
+.form-field {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+
 button {
-    display: block;
     padding: 10px;
     margin: 2px;
 }
+

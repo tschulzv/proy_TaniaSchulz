@@ -17,6 +17,7 @@ const Navbar = (props) => {
 
     return (
         <div className = "navbar">
+            <img src="/applogo.png" alt="studyberry" className="logo"></img>
             <ul className="nav-links">
                 <li> <Link to={link1} className="link">{title1}</Link></li>
                 <li><Link to={link2} className="link">{title2}</Link></li>

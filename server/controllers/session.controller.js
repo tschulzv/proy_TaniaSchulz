@@ -63,3 +63,40 @@ module.exports.deleteSession = (req, res) => {
         res.status(500).json({ error: err.message });
     });
 }
+
+module.exports.getAvgTime = (req, res) => {
+    Session.aggregate([
+        {
+          $group: {
+            _id: "$date", // Group sessions by date
+            totalAggregateTimeInSeconds: { $sum: "$timeInSeconds" } // Calculate total timeInSeconds for each date
+          }
+        },
+        {
+          $group: {
+            _id: null, // Group all documents together
+            totalDates: { $sum: 1 }, // Count total number of unique dates
+            totalAggregateTimeInSeconds: { $sum: "$totalAggregateTimeInSeconds" } // Calculate total timeInSeconds across all dates
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            averageTimeInSecondsPerDate: { $divide: ["$totalAggregateTimeInSeconds", "$totalDates"] } // Calculate average timeInSeconds per date
+          }
+        }
+      ]).then(result => {
+        if(result.length > 0) {
+          res.status(200).json({ avgTime: result[0].averageTimeInSecondsPerDate });
+        } else {
+          // Handle case when there are no sessions
+          res.status(200).json({ avgTime: 0 });
+        }
+      }).catch(err => {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+      });
+}
+
+
+

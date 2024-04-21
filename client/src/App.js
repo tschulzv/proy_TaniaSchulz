@@ -46,9 +46,10 @@ function App() {
             console.log("[APP.JS]exito, sesiones de hoy:", res.data.sessions);
         })
         .catch(err=>console.log("no se obtuvieron las sesiones",err));
+  
     
-    setLoading(false);
 
+    setLoading(false);
     }, []);
 
   return (

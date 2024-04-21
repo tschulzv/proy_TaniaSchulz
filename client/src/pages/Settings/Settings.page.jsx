@@ -11,6 +11,7 @@ import "../CreateResource/ResourceForm.style.css"
 const Settings = (props) => {
     const [userData, setUserData] = useState(props.userData);
     const [subjects, setSubjects] = useState(props.userData.subjects);
+    const [showMsg, setShowMsg] = useState(false);
     const client = new HTTPClient();
 
     const handleChange = (e) => {
@@ -34,11 +35,10 @@ const Settings = (props) => {
     };
     
     const addSubject = () => {
-        if (!userData) return; // Check if userData is undefined
+        if (!userData) return; 
         const newSubjects = { ...subjects, 'Nueva asignatura...': 0 };
         setSubjects(newSubjects);
-        // Update the JSON data immediately
-        console.log("AHORA EDITAR USUARIO...");
+        // guardar en el json
         client.editUser({ ...userData, subjects: newSubjects })
             .then((res) => console.log("ajustes guardados", res))
             .catch((err) => console.log(err));
@@ -51,9 +51,13 @@ const Settings = (props) => {
         client.editUser(userData)
             .then((res) => {
                 console.log("ajustes guardados", res);
-                // Optionally, update state or show a success message
+                setShowMsg(true);
             })
             .catch((err) => console.log(err));
+        // el mensaje desaparece en 3 seg
+        setTimeout(() => {
+            setShowMsg(false);
+        }, 3000);
     };
 
 
@@ -65,21 +69,28 @@ const Settings = (props) => {
                     <h2 className="title">Ajustes</h2>
                     {userData && subjects && (
                     <form className="settings-form" onSubmit={handleSubmit}>
-                        <label htmlFor="name">Nombre</label>
-                        <input name="name" type="text" placeholder={userData.name} onChange={handleChange}></input>
-                        <label htmlFor="avatar">Avatar</label>
-                        <img src={userData.avatar} alt="#" className="avatar"/>
-                        <input name="avatar" type="text" placeholder={userData.avatar} onChange={handleChange}></input>
-                        <h3>Asignaturas</h3>
-                        <div id="subjectList">
-                            {Object.entries(userData.subjects).map(([subject, score]) => (
-                                <p>
-                                    <span key={subject}>{subject}</span> <button type="button" onClick={() => deleteSubject(subject)}>Borrar</button>
-                                </p>
-                            ))}       
+                        <div className="form-field">
+                            <label htmlFor="name">Nombre</label>
+                            <input name="name" type="text" placeholder={userData.name} onChange={handleChange}></input>
                         </div>
-                        <button onClick={addSubject}>Agregar</button>
+                        <div className="form-field">
+                            <label htmlFor="avatar">Avatar</label>
+                            <img src={userData.avatar} alt="#" className="settings-avatar"/>
+                            <input name="avatar" type="text" placeholder={userData.avatar} onChange={handleChange}></input>
+                        </div>
+                        <div className="form-field">
+                            <label>Asignaturas</label>
+                            <div className="subjects-field">
+                                {Object.entries(userData.subjects).map(([subject, score]) => (
+                                    <div className="subject-name">
+                                        <span key={subject}>{subject}</span> <button type="button" onClick={() => deleteSubject(subject)}> X </button>
+                                    </div>
+                                ))}       
+                            </div>
+                        </div>
+                        <button onClick={addSubject}>Nueva asignatura</button>
                         <button type="submit" onClick={handleSubmit}>Guardar cambios</button>
+                        {showMsg && <p className="msg">Se han guardado los cambios.</p>}
                     </form>
                 )}
                 </div>

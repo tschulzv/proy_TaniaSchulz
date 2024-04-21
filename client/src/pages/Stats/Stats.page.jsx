@@ -5,6 +5,8 @@ import {
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar.component";
 import "./Stats.style.css";
+import HTTPClient from "../../utils/HTTPClient";
+
 const Stats = (props) => {
     const [loading, setLoading] = useState(true);
     const {
@@ -13,19 +15,29 @@ const Stats = (props) => {
         subjects,
         stats
     } = props.userData;
+    const [sessions, setSessions] = useState();
     const [ranking, setRanking] = useState();
     const [bestSubject, setBestSubject] = useState("");
     const [worstSubject, setWorstSubject] = useState("");
+    const [average, setAverage] = useState(0);
+    const client = new HTTPClient();
 
     useEffect(() => {
+        // obtener sesiones, hallar promedio y ranking
+        client.getAvgTime()
+        .then(res=>{
+            setAverage(res.data.avgTime);
+            console.log("[APP.JS]exito, tiempo promedio:", res.data.avgTime);
+        })
+        .catch(err=>console.log("no se obtuvo el promedio",err));
         setRanking(findRanking);
+        setAverage();
         // ordenar mejor y peor asignatura
         let subjLength = Object.keys(subjects).length;
         let sortedSubjects = Object.entries(subjects).sort((a, b) => b[1] - a[1]);
-        console.log("ORDENADO:", sortedSubjects);
         setBestSubject(sortedSubjects[0][0]);
-        console.log("ORDENADO:", bestSubject);
         setWorstSubject(sortedSubjects[subjLength - 1][0]);
+        // termina de cargar
         setLoading(false);
     }, [])
     
@@ -59,8 +71,8 @@ const Stats = (props) => {
                 <div className="main-content">
                     <h2>STATS</h2>
                     <p>Record de horas estudiadas: {stats.maxTime}</p>
-                    <p>Promedio de horas estudiadas: {stats.avgTime}</p>
-                    <p>Dias estudiados: {stats.dayCount}</p>
+                    <p>Promedio de horas estudiadas: {average}</p>
+                    {/*<p>Dias estudiados: {stats.dayCount}</p>*/}
                     <h2>HABILIDADES</h2>
                     {Object.entries(subjects).map(([subject, score]) => (
                                 <p key={subject}>

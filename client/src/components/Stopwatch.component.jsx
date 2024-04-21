@@ -6,12 +6,13 @@ const Stopwatch = (props) => {
   const subjects = props.subjects; 
   const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
   const [buttonText, setButtonText] = useState("Iniciar");
+  const [isRunning, setIsRunning] = useState(false);
   const {
     totalSeconds,
     seconds,
     minutes,
     hours,
-    isRunning,
+    //isRunning,
     start,
     pause,
     reset,
@@ -33,12 +34,21 @@ const Stopwatch = (props) => {
     }
   }
 
+  const toggleTimer = () => {
+    if (isRunning) {
+      pause();
+    } else {
+      start();
+    }
+    setIsRunning(!isRunning);
+  };
+
   const endSession = () => {
+    setIsRunning(false);
     // guardar tiempo en segundos
     let timeInSeconds = totalSeconds;
     //  resetear y detener
-    reset();
-    pause();
+    reset(0, false);
     console.log("TOTAL:", timeInSeconds);
     console.log("ASIGNATURA: ", selectedSubject);
     // pasarle el tiempo en segundos a la Home page
@@ -58,8 +68,8 @@ const Stopwatch = (props) => {
                       <option value={subject}>{subject}</option>
                   ))}
               </select>
-              <button onClick={handleBtn} className="btn">{buttonText}</button>
-              <button disabled={!isRunning} onClick={endSession} className="btn">Detener</button>
+              <button onClick={toggleTimer}>{isRunning ? 'Pausar' : 'Iniciar'}</button>
+              {isRunning && <button onClick={endSession} className="btn">Detener</button>}
           </div>
       </div>
     </>
@@ -67,4 +77,5 @@ const Stopwatch = (props) => {
 }
 
 export default Stopwatch;
+//<button onClick={handleBtn} className="btn">{buttonText}</button>
 //<button onClick={pause} className="btn">Pause</button>

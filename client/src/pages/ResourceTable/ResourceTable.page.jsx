@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useTable, usePagination } from 'react-table';
 import debounce from 'lodash/debounce';
 import Navbar from "../../components/Navbar.component";
+import "../../components/StyleUtils.style.css"
 import "./ResourceTable.style.css";
 
 const ResourceTable = () => {
@@ -43,23 +44,23 @@ const ResourceTable = () => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Asignatura',
+        Header: 'ASIGNATURA',
         accessor: 'subject',
       },
       {
-        Header: 'Tema',
+        Header: 'TEMA',
         accessor: 'topic',
       },
       {
-        Header: 'Tipo',
+        Header: 'TIPO',
         accessor: 'type',
       },
       {
-        Header: 'Fuente',
+        Header: 'FUENTE',
         accessor: 'source',
       },
       {
-        Header: 'Editar',
+        Header: '',
         accessor: '_id',
         Cell: ({ row }) => (
           <Link to={`/resources/${row.original._id}/edit`}>Editar</Link>
@@ -87,12 +88,11 @@ const ResourceTable = () => {
       <Navbar title1="INICIO" link1="/" title2="ESTADISTICAS" link2="/stats" title3="AJUSTES" link3="/settings" />
       <h2 className="title">Organizador</h2>
       <div>
-        <label htmlFor="filterValue">Filtrar:</label>
         <input
           id="filterValue"
           value={filterValue}
           onChange={(e) => handleInputChange(e.target.value)}
-          placeholder="Buscar"
+          placeholder="Buscar..."
         />
         {loading ? (
           <p>Loading...</p>

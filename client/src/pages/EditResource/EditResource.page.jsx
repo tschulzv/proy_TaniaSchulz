@@ -9,6 +9,7 @@ import Navbar from "../../components/Navbar.component";
 import "../CreateResource/ResourceForm.style.css"
 
 const EditResource = (props) => {
+    const [showMsg, setShowMsg] = useState();
     const { id } = useParams();
     const [resource, setResource] = useState();
     const [errors, setErrors] = useState([]);
@@ -32,7 +33,6 @@ const EditResource = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         if(!validate) {
             return;
         }
@@ -40,7 +40,24 @@ const EditResource = (props) => {
         client.editResource(id, resource)
             .then((res) => {
                 console.log("Recurso editado con exito", res);
-                navigate("/resources");
+                setShowMsg("Se han guardado los cambios");
+                setTimeout(() => {
+                    navigate("/resources");
+                }, 3000);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const deleteResource = (e) => {
+        client.deleteResource(id)
+            .then((res) => {
+                console.log("Recurso eliminado con exito", res);
+                setShowMsg("Recurso eliminado con exito.");
+                setTimeout(() => {
+                    navigate("/resources");
+                }, 3000);
             })
             .catch((err) => {
                 console.log(err);
@@ -75,26 +92,37 @@ const EditResource = (props) => {
                     {
                         resource && (
                         <form className="res-form" onSubmit={(e) => {handleSubmit(e)}}>
-                            <label htmlFor="subject">Asignatura</label>
-                            <select name="subject" placeholder={resource.subject} onChange={(e) => {handleChange(e)}}>
-                                {
-                                    props.subjects && props.subjects.map((subject, i) => (
-                                        <option value={i}>{subject}</option>
-                                    ))
-                                }
-                            </select>
-                            <label htmlFor="type">Tipo</label>
-                            <select name="type" onChange={(e) => {handleChange(e)}}>
-                                <option value="video">Video</option>
-                                <option value="ebook">Ebook</option>
-                                <option value="website">Sitio web</option>
-                                <option value="workbook">Ejercitario</option>
-                            </select>
-                            <label htmlFor="topic">Tema</label>
-                            <input name="topic" placeholder={resource.topic} type="text" onChange={(e) => {handleChange(e)}}></input>
-                            <label htmlFor="source">Fuente</label>
-                            <input name="source" type="text" placeholder={resource.source} onChange={(e) => {handleChange(e)}}></input>
-                            <button type="submit">Agregar</button>
+                            <div className="form-field">
+                                <label htmlFor="subject">Asignatura</label>
+                                <select name="subject" placeholder={resource.subject} onChange={(e) => {handleChange(e)}}>
+                                    {
+                                        props.subjects && props.subjects.map((subject, i) => (
+                                            <option value={i}>{subject}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                            <div className="form-field">
+                                <label htmlFor="type">Tipo</label>
+                                <select name="type" onChange={(e) => {handleChange(e)}}>
+                                    <option value="video">Video</option>
+                                    <option value="ebook">Ebook</option>
+                                    <option value="website">Sitio web</option>
+                                    <option value="workbook">Ejercitario</option>
+                                </select>
+                            </div>
+                            <div className="form-field">
+                                <label htmlFor="topic">Tema</label>
+                                <input name="topic" placeholder={resource.topic} type="text" onChange={(e) => {handleChange(e)}}></input>
+                            
+                            </div>
+                            <div className="form-field">
+                                <label htmlFor="source">Fuente</label>
+                                <input name="source" type="text" placeholder={resource.source} onChange={(e) => {handleChange(e)}}></input>
+                            </div>
+                            <button onClick={handleSubmit}>Guardar</button>
+                            <button onClick={deleteResource}>Eliminar</button>
+                            {showMsg && <p>{showMsg}</p>}
                         </form>)
                     }
                 </div>
