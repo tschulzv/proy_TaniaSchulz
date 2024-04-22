@@ -13,7 +13,6 @@ const Stats = (props) => {
         name,
         avatar, 
         subjects,
-        stats
     } = props.userData;
     const [sessions, setSessions] = useState();
     const [ranking, setRanking] = useState();
@@ -58,14 +57,19 @@ const Stats = (props) => {
     }
     
     const findRanking = () => {
-        const score = stats.totalScore;
-        if (score >= 0 && score < 1500) {
-            return "Novato";
-        } else if (score >= 1500 && score < 5000) {
+       // sumar todos los puntajes
+        let totalScore = Object.values(subjects).reduce((acc, score) => {
+            return acc + score;
+        }, 0);
+        console.log("PUNTAJE TOTAL", totalScore);
+
+        if (totalScore >= 0 && totalScore < 1000) {
             return "Aprendiz";
-        } else if (score >= 5000 && score < 10000) {
+        } else if (totalScore >= 1000 && totalScore < 5000) {
             return "Mago";
-        } else if (score >= 10000) {
+        } else if (totalScore >= 5000 && totalScore < 10000) {
+            return "Hechicero";
+        } else if (totalScore >= 10000) {
             return "Leyenda";
         } else {
             return "Unknown";

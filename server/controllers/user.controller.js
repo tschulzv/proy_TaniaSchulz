@@ -13,9 +13,9 @@ module.exports.editUser = (req, res) => {
         const filePath = path.join(__dirname, "../user.json");
         fs.writeFileSync(filePath, JSON.stringify(updatedUser, null, 2));
         console.log("[usercontroller]", updatedUser);
-        res.status(200).json(updatedUser); // Send a 200 status code with the updated user data
+        res.status(200).json(updatedUser); 
     } catch (err) {
         console.log("Error: ", err);
-        res.status(500).send("Error al actualizar el usuario"); // Send a 500 status code for internal server error
+        res.status(500).send("Error al actualizar el usuario"); 
     }
 }

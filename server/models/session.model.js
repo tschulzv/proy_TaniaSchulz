@@ -15,17 +15,6 @@ const SessionSchema = new Schema({
         required: [true, "Agrega el tiempo (en segundos)"]
     }
 })
-/*
-const DaySchema = new Schema ({
-    date: {
-        type: Date, 
-        required: [true, "Agrega la fecha"]
-    },
-    sessions: {
-        type: [SessionSchema]
-    }
-})*/
-
 
 
 const Session = mongoose.model("Session", SessionSchema);

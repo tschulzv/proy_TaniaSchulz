@@ -5,10 +5,8 @@
   "subjects": {
     "Algoritmos": 811,
     "Redes": 650,
-    "Calculo": 1,
-    "Fisica": null
-  },
-  "stats": {
-    "totalScore": 5000
+    "Calculo": 2,
+    "Fisica": 0,
+    "Paradigmas": 0
   }
 }

@@ -100,6 +100,11 @@ h1, h2 {
     vertical-align: text-top;
 }
 
+.error{
+    font-size: small;
+    color: #d32626;
+}
+
 /* STOPWATCH COMPONENT */
 .circle-div {
     border-radius: 50%;

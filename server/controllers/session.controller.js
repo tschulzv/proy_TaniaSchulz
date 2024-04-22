@@ -105,14 +105,6 @@ module.exports.getAvgTime = (req, res) => {
         maxTime : result[0].maxTime,
         totalDates : result[0].totalDates,
         avgTime : result[0].averageTimePerDate});
-      /* Handle the result here
-      if (result.length > 0) {
-          const averageTimePerDate = result[0].averageTimePerDate;
-          res.status(200).json({ avgTimePerDate: averageTimePerDate });
-      } else {
-          // Handle case when there are no sessions
-          res.status(200).json({ avgTimePerDate: 0 });
-      }*/
   }).catch(err => {
       console.error(err);
       res.status(500).json({ error: err.message });

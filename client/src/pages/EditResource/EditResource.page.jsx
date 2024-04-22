@@ -94,10 +94,10 @@ const EditResource = (props) => {
                         <form className="res-form" onSubmit={(e) => {handleSubmit(e)}}>
                             <div className="form-field">
                                 <label htmlFor="subject">Asignatura</label>
-                                <select name="subject" placeholder={resource.subject} onChange={(e) => {handleChange(e)}}>
+                                <select name="subject" onChange={(e) => {handleChange(e)}}>
                                     {
                                         props.subjects && props.subjects.map((subject, i) => (
-                                            <option value={i}>{subject}</option>
+                                            <option value={subject}>{subject}</option>
                                         ))
                                     }
                                 </select>

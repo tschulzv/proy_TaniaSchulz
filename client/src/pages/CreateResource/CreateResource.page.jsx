@@ -13,7 +13,7 @@ const CreateResource = (props) => {
     const [topic, setTopic] = useState("");
     const [type, setType] = useState("");
     const [source, setSource] = useState([]);
-    const [errors, setErrors] = useState([]);
+    const [showError, setShowError] = useState(false);
 
     const navigate = useNavigate();
     let client = new HTTPClient();
@@ -47,19 +47,14 @@ const CreateResource = (props) => {
 
     const validate = () => {
         let flag = true;
-        let errors = {}
 
-        if (subject.length < 3){
-            errors.subject = "Asignatura invalida";
+        if (subject.length < 5 || topic.length <5){
             flag = false;
+            setShowError(true);
         }
-
-        if (topic.length < 3){
-            errors.topic = "Tema debe ser mas largo";
-            flag = false;
+        else {
+            setShowError(false);
         }
-
-        setErrors(errors);
         return flag;
     }
 
